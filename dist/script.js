@@ -2,6 +2,9 @@ import axios from 'axios';
 const year = new Date().getFullYear();
 const newYear = document.createElement('div');
 const footer = document.querySelector('footer');
+const btn = document.querySelector('button');
+const price = document.getElementsByClassName('price');
+
 
 newYear.innerText = `Copyright © ${year} Saurabh Kirve`;
 footer.appendChild(newYear);
@@ -18,11 +21,19 @@ maxBodyLength: Infinity,
 };
 
 async function getPrice() {
+  
     try {
       const response = await axios(config);
+      const rate = Math.round(response.data.rate * 100) / 100;
+      document.querySelector('.price').innerHTML += `<h1>Price of Bitcoin in USD is: $ ${rate} </h1>`;
       
-      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
   }
+
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    getPrice();
+    console.log("btn clicked!"); 
+  });
